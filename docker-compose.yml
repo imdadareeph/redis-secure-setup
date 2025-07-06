@@ -1,0 +1,70 @@
+version: "3.9"
+
+networks:
+  redis-net:
+    driver: bridge
+
+services:
+  redis-master:
+    image: redis:7.2.4
+    container_name: redis-master
+    restart: always
+    networks:
+      - redis-net
+    volumes:
+      - redis_master_data:/data
+    ports:
+      - 6379:6379
+    command: >
+      redis-server
+      --appendonly yes
+      --requirepass YourSecurePassword
+
+  redis-replica:
+    image: redis:7.2.4
+    container_name: redis-replica
+    restart: always
+    depends_on:
+      - redis-master
+    networks:
+      - redis-net
+    volumes:
+      - redis_replica_data:/data
+    ports:
+      - 6479:6379
+    command: >
+      redis-server
+      --appendonly yes
+      --replicaof redis-master 6379
+      --masterauth YourSecurePassword
+      --requirepass YourSecurePassword
+
+  redis-insight:
+    image: redis/redisinsight:latest
+    container_name: redis-insight
+    restart: always
+    networks:
+      - redis-net
+    ports:
+      - 8001:5540
+    volumes:
+      - redis_insight_data:/db
+
+  redis-rest:
+    image: nicolasff/redis-rest:latest
+    container_name: redis-rest
+    restart: always
+    depends_on:
+      - redis-master
+    networks:
+      - redis-net
+    ports:
+      - 8080:8080
+    environment:
+      REDIS_ADDR: redis-master:6379
+      REDIS_PASSWORD: YourSecurePassword
+
+volumes:
+  redis_master_data:
+  redis_replica_data:
+  redis_insight_data:

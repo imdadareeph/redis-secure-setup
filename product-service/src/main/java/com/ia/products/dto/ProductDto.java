@@ -13,6 +13,12 @@ public record ProductDto(Long id, String description, double price, int quantity
     }
 
     public Product toEntity() {
-        return new Product(id, description, price, quantityAvailable);
+        Product product;
+        if (id == null) {
+            product = new Product(description, price, quantityAvailable);
+        } else {
+            product = new Product(id, description, price, quantityAvailable, false);
+        }
+        return product;
     }
 }

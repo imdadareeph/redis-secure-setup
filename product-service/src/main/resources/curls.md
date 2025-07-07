@@ -2,13 +2,13 @@
 
 ```bash
 
-curl -X POST http://localhost:8080/products \
+curl -X POST http://localhost:8088/products \
 -H "Content-Type: application/json" \
 -d '{
 "id": null,
-"description": "Sample Product",
-"price": 19.99,
-"quantityAvailable": 100
+"description": "Sample Product2",
+"price": 18.99,
+"quantityAvailable": 101
 }'
 
 ```
@@ -17,7 +17,7 @@ curl -X POST http://localhost:8080/products \
 ## add products
 
 ```bash
-curl -X GET http://localhost:8080/product/1
+curl -X GET http://localhost:8088/product/1
 ```
 
 ```bash

@@ -51,7 +51,7 @@ services:
       - redis_insight_data:/db
 
   redis-rest:
-    image: nicolasff/redis-rest:latest
+    build: ./redis-rest-api
     container_name: redis-rest
     restart: always
     depends_on:

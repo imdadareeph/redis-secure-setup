@@ -25,37 +25,49 @@ services:
     networks:
       - product-net
 
-  product-service:
-    build: .
-    container_name: product-service
-    ports:
-      - "8088:8080"
-    depends_on:
-      - postgres
-      - redis
-    networks:
-      - product-net
-    environment:
-      SPRING_R2DBC_URL: r2dbc:postgresql://postgres:5432/productdb
-      SPRING_R2DBC_USERNAME: admin
-      SPRING_R2DBC_PASSWORD: admin
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
-      CACHE_ENABLED: true
+#  product-service:
+#    build: .
+#    container_name: product-service
+#    ports:
+#      - "8088:8080"
+#    depends_on:
+#      - postgres
+#      - redis
+#    networks:
+#      - product-net
+#    environment:
+#      SPRING_R2DBC_URL: r2dbc:postgresql://postgres:5432/productdb
+#      SPRING_R2DBC_USERNAME: admin
+#      SPRING_R2DBC_PASSWORD: admin
+#      SPRING_REDIS_HOST: redis
+#      SPRING_REDIS_PORT: 6379
+#      CACHE_ENABLED: true
 
   adminer:
     image: adminer
     container_name: product-adminer
     restart: always
     ports:
-      - "8081:8080"
+      - "5433:8080"
     depends_on:
       - postgres
     networks:
       - product-net
 
+  redis-insights:
+    image: redis/redisinsight:latest
+    container_name: redis-insights
+    restart: always
+    networks:
+      - product-net
+    ports:
+      - "8001:5540"
+    volumes:
+      - redis_insight_data:/db
+
 volumes:
   postgres_data:
+  redis_insight_data:
 
 networks:
   product-net:

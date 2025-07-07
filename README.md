@@ -47,7 +47,12 @@ brew install redis
 
 Connect to master:
 ```
-redis-cli -h localhost -p 6379 -a YourSecurePassword
+redis-cli -h redis -p 6379 -a YourSecurePassword
+```
+
+db
+```
+redis://default@redis:6379
 ```
 
 ## Try commands:
@@ -55,6 +60,12 @@ redis-cli -h localhost -p 6379 -a YourSecurePassword
 ```
 SET test "value"
 GET test
+```
+
+curl
+```
+curl -X POST http://localhost:8080/SET/mykey/hello
+curl http://localhost:8080/GET/mykey
 ```
 
 

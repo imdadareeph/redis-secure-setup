@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
-@ConditionalOnProperty(name = "CACHE_ENABLED", havingValue = "true")
-@Primary
+@ConditionalOnProperty(name = "cache.enable", havingValue = "true")
+//@Primary
 @RequiredArgsConstructor
 public class ProductServiceWithRedisCache implements ProductService {
     private final ProductRepository repository;
